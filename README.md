@@ -25,7 +25,7 @@ Target the user's runtime namespace
 oc new-project project-shield-userws
 oc apply -f 04-external-secret.yaml
 ```
-### 4. Verify the Resources
+### 4. The Pre-Flight Gatekeeper
 This script checks the Hub, the Store, and the User Workspace to ensure every "link" in the chain is secure.
 ```
 ./00-verify-shield.sh
@@ -39,4 +39,10 @@ Expected Output
 ✅ [METADATA] Injection Annotation is CORRECT
 -----------------------------------------------
 🚀 SHIELD VERIFIED: Safe to launch 05-dev-workspace.yaml
+```
+### 5. The Final Launch.
+Create a workspace named ai-shield-alpha in this namespace, and use the configuration found in this Git repo.
+```bash
+oc project project-shield-userws
+oc apply 05-dev-workspace.yaml
 ```
