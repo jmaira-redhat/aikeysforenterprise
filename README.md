@@ -1,6 +1,6 @@
 # aikeysforenterprise# 
 
-🛡️ Project Shield: Zero-Trust AI Development
+# 🛡️ Project Shield: Zero-Trust AI Development#
 
 This repository contains the infrastructure-as-code required to securely govern AI API keys (Claude/OpenAI) on Red Hat OpenShift using External Secrets and Dev Spaces.
 
@@ -22,7 +22,7 @@ oc apply -f 03-cluster-store.yaml
 ### 3. Deploy the User Bridge
 Target the user's runtime namespace
 ```bash
-oc new-project roject-shield-userws
+oc new-project project-shield-userws
 oc apply -f 04-external-secret.yaml
 oc apply -f 05-dev-workspace.yaml
 ```
