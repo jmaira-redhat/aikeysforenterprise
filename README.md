@@ -45,4 +45,6 @@ Create a workspace named ai-shield-alpha in this namespace, and use the configur
 ```bash
 oc project project-shield-userws
 oc apply -f 05-dev-workspace.yaml
+watch oc get devworkspace ai-shield-alpha -n project-shield-userws
+oc get pods -n project-shield-userws -w
 ```
