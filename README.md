@@ -58,5 +58,27 @@ oc adm policy add-role-to-user edit user1 -n project-shield-userws
 # 2. Verify the 'Shield' is holding (should return 'no')
 oc auth can-i get secrets -n project-shield-hub --as user1
 ```
-## 🚀  Access the devSpaces as a Developer
+## 👨‍💻 Developer Onboarding (user1)
+Once the Admin has provisioned the environment, follow these steps to access your secure AI workspace.
+### 1. Access the Workspace
+The Project Lead will provide a unique URL for your pre-provisioned workspace. 
+* **URL Format:** `https://<devspaces-host>/#/workspaces/project-shield-userws/ai-shield-alpha`
+### 2. Login & Authenticate
+1. Open the URL in an **Incognito/Private window**.
+2. Log in with your OpenShift credentials (Username: `user1`).
+3. If prompted, click **Allow** to authorize the Dev Spaces client.
+
+### 3. Verify the AI Shield
+Open a terminal inside the IDE (Terminal -> New Terminal) and run the verification suite:
+
+```bash
+# Check if the Claude CLI is ready
+claude --version
+
+# Check if the Anthropic API Key is securely injected
+if [[ -n "$ANTHROPIC_API_KEY" ]]; then
+  echo "✅ Project Shield Active. Ready to code."
+else
+  echo "❌ Shield Error: API Key missing. Contact your Admin."
+fi
 
