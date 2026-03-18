@@ -4,7 +4,7 @@ metadata:
   name: ai-shield-alpha
   namespace: project-shield-userws
 spec:
-  started: true 
+  started: true
   routingClass: 'che'
   template:
     projects:
@@ -12,9 +12,3 @@ spec:
         git:
           remotes:
             origin: "https://github.com/jmaira-redhat/aicodersheild.git"
-    components:
-      - name: dev-terminal
-        container:
-          image: quay.io/devspaces/ansible-creator-ee:latest
-          memoryLimit: 2Gi
-          mountSources: true
