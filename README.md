@@ -24,5 +24,19 @@ Target the user's runtime namespace
 ```bash
 oc new-project project-shield-userws
 oc apply -f 04-external-secret.yaml
-oc apply -f 05-dev-workspace.yaml
+```
+### 4. Verify the Resources
+This script checks the Hub, the Store, and the User Workspace to ensure every "link" in the chain is secure.
+```
+./00-verify-shield.sh
+Expected Output
+🔍 Starting Project Shield Pre-Flight Check...
+-----------------------------------------------
+✅ [HUB] Master Secret found in project-shield-hub
+✅ [BRIDGE] ClusterSecretStore 'project-shield-vault' is READY
+✅ [USER] Local Secret 'ai-creds' has been synchronized
+✅ [METADATA] Injection Labels are CORRECT
+✅ [METADATA] Injection Annotation is CORRECT
+-----------------------------------------------
+🚀 SHIELD VERIFIED: Safe to launch 05-dev-workspace.yaml
 ```
