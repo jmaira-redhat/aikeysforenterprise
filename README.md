@@ -44,5 +44,5 @@ Expected Output
 Create a workspace named ai-shield-alpha in this namespace, and use the configuration found in this Git repo.
 ```bash
 oc project project-shield-userws
-oc apply 05-dev-workspace.yaml
+oc apply -f 05-dev-workspace.yaml
 ```
