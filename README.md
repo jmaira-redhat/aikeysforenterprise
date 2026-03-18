@@ -4,7 +4,7 @@
 
 This repository contains the infrastructure-as-code required to securely govern AI API keys (Claude/OpenAI) on Red Hat OpenShift using External Secrets and Dev Spaces.
 
-## 🚀 Quick Start (Admin)
+## 🚀 Set up as a Cluster Admin user playing the ANTHROPIC keys Owner
 
 ### 1. Initialize the Vault
 Create the restricted namespace and add your master keys.
@@ -48,3 +48,15 @@ oc apply -f 05-dev-workspace.yaml
 watch oc get devworkspace ai-shield-alpha -n project-shield-userws
 oc get pods -n project-shield-userws -w
 ```
+
+### 6. Delegate access to projec to a developer user user1
+Provide Namespace access to the developer
+```bash
+# 1. Grant 'edit' to the project namespace (where the workspace lives)
+oc adm policy add-role-to-user edit user1 -n project-shield-userws
+
+# 2. Verify the 'Shield' is holding (should return 'no')
+oc auth can-i get secrets -n project-shield-hub --as user1
+```
+## 🚀  Access the devSpaces as a Developer
+
