@@ -3,15 +3,13 @@ kind: DevWorkspace
 metadata:
   name: ai-shield-alpha
   namespace: project-shield-userws
+  annotations:
+    # This tells the operator to inject the VS Code (Code-OSS) editor automatically
+    che.eclipse.org/che-editor: che-incubator/che-code/latest
 spec:
   routingClass: 'che'
   started: true
   template:
-    # ⬇️ THIS IS THE MISSING PIECE ⬇️
-    components:
-      - name: che-code
-        plugin:
-          id: che-incubator/che-code/latest
     projects:
       - name: aicodershield
         git:
