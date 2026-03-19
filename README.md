@@ -19,6 +19,17 @@ oc apply -f 02-shield-rbac.yaml
 oc apply -f 03-cluster-store.yaml
 ```
 ## 👨‍💻 Developer Onboarding (user1)
+
+The journey begins with `user1` requesting a workspace. At this stage, the environment is a "blank slate" before the administrative security policies are applied.
+
+### 1. Creating the Workspace
+The developer logs into the Red Hat OpenShift Dev Spaces dashboard and initiates a new workspace using the Project Shield repository.
+
+![Developer Workspace Creation](./images/ai-shield-alpha-dev-space-creation.png)
+*Figure 1: user1 initiating the 'ai-shield-alpha' workspace from the central dashboard.*
+
+---
+
 As a developer create the devworkspace. This will create a namespace like user1-devspaces
 ```
 logout as admin from the ocp console
