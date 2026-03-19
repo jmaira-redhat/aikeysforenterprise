@@ -65,10 +65,14 @@ To allow the Project Shield to sync the API keys from the Hub to the Developer's
 ![Developer Workspace Stop](./images/stop_workspace.png)
 *Figure 2: user1 stoping the 'ai-shield-alpha' workspace .*
 
-### Admin - 3. Deploy the User Bridge
+image ref workspace stopped
+
+
+### Admin - 2. Deploy the User Bridge
 Target the user's runtime namespace
 ```bash
-oc get namespaces | grep user1-devspaces
+oc login as admin user
+oc get projects | grep user1-devspaces
 Expected Output
 ✅ user1-devspaces                                    Active   4m21s
 # (Let's assume it is user1-devspaces for the commands below).
