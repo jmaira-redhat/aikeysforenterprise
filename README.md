@@ -36,6 +36,28 @@ https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/#https://github.com/jmaira-
 ![Developer Workspace Creation](./images/user1-devspace-create.png)
 *Figure 1: user1 initiating the 'ai-shield-alpha' workspace from the central dashboard.*
 
+verify claude keys are not available yet.
+
+
+```bash
+# Check if the Claude CLI is ready
+claude --version
+Expected output
+✅  2.1.79 (Claude Code)
+
+# Check if the Anthropic API Key is securely injected
+if [[ -n "$ANTHROPIC_API_KEY" ]]; then
+  echo "✅ Project Shield Active. Ready to code."
+else
+  echo "❌ Shield Error: API Key missing. Contact your Admin."
+fi
+
+Expected out out
+❌ Shield Error: API Key missing. Contact your Admin.
+
+```
+
+image ref here
 ---
 
 To allow the Project Shield to sync the API keys from the Hub to the Developer's namespace, the workspace must be momentarily stopped. This ensures that the next time the container starts, it "sees" the newly injected environment variables.
