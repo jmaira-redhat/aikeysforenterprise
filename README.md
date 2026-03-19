@@ -98,6 +98,11 @@ Expected Output
 ## 👨‍💻 Developer Onboarding (user1) with ANTHROPIC Keys
 Once the Admin has provisioned the environment, follow these steps to access your secure AI workspace.
 ### 1. Access the Workspace
+```
+logout as admin user in console
+login as user1 in console
+```
+
 The Project Lead will provide a unique URL for your pre-provisioned workspace. 
 * **URL Format:** `https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/dashboard/#/workspace/user1-devspaces/ai-shield-alpha`
 
