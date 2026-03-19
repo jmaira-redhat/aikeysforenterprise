@@ -21,8 +21,14 @@ oc apply -f 03-cluster-store.yaml
 ## 👨‍💻 Developer Onboarding (user1)
 As a developer create the devworkspace. This will create a namespace like users-devspaces
 ```
-https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/#https://github.com/jmaira-redhat/aicodersheild.git?name=ai-shield-alpha
+logout as admin from the ocp console
+login as user1 (developer user)
+
+https://devspaces.apps.cluster-6pt7r.dynamic.redhatworkshops.io/#https://github.com/jmaira-redhat/aicodersheild.git?name=ai-shield-alpha
+
 ```
+stop workspace
+Observe for a new namespace user1-devspaces (or a developer user name prefixed tpo devpsaces) created
 ### Admin - 3. Deploy the User Bridge
 Target the user's runtime namespace
 ```bash
