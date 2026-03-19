@@ -105,7 +105,7 @@ fi
 Expected out out
 ✅ Project Shield Active. Ready to code.
 
-
+```
 Or Run a cluade code cli test as follows
 
 ![Developer Workspace clade test](./images/test_cluade_code_cli.png)
