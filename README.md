@@ -84,17 +84,16 @@ Or as user1 (Developer user) access the devspace dashboard and reopen your works
 
 ![Developer Workspace Stop](./images/restart_workspace.png)
 *Figure 34: user1 re-open 'ai-shield-alpha' workspace  .*
-### 2. Login & Authenticate
-1. Open the URL in an **Incognito/Private window**.
-2. Log in with your OpenShift credentials (Username: `user1`).
-3. If prompted, click **Allow** to authorize the Dev Spaces client.
 
-### 3. Verify the AI Shield
+
+### 2. Verify the AI Shield
 Open a terminal inside the IDE (Terminal -> New Terminal) and run the verification suite:
 
 ```bash
 # Check if the Claude CLI is ready
 claude --version
+Expected output
+✅  2.1.79 (Claude Code)
 
 # Check if the Anthropic API Key is securely injected
 if [[ -n "$ANTHROPIC_API_KEY" ]]; then
@@ -103,3 +102,11 @@ else
   echo "❌ Shield Error: API Key missing. Contact your Admin."
 fi
 
+Expected out out
+✅ Project Shield Active. Ready to code.
+
+
+Or Run a cluade code cli test as follows
+
+![Developer Workspace clade test](./images/test_cluade_code_cli.png)
+*Figure 34: user1 re-open 'ai-shield-alpha' workspace  .*
