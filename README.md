@@ -1,6 +1,6 @@
-# aikeysforenterprise# 
 
-# 🛡️ Project Shield: Zero-Trust AI Development#
+
+# 🛡️ Project Shield: Zero-Trust AI Development
 
 This repository contains the infrastructure-as-code required to securely govern AI API keys (Claude/OpenAI) on Red Hat OpenShift using External Secrets and Dev Spaces.
 
