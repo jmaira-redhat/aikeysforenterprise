@@ -1,0 +1,89 @@
+schemaVersion: 2.2.0
+metadata:
+  name: aicodershield-workspace
+  display-name: "AI Project Shield - Secure Workspace"
+  description: "Governance-backed AI development environment with automated key injection."
+
+events:
+  postStart:
+    - 01-shield-init
+
+projects:
+  - name: aicodershield
+    git:
+      remotes:
+        origin: "https://github.com/jmaira-redhat/aikeysforenterprise.git"
+    clonePath: aicodershield
+
+components:
+  - name: dev-runtime
+    container:
+      image: registry.redhat.io/devspaces/udi-rhel9:latest
+      memoryLimit: 8Gi
+      mountSources: true
+
+commands:
+  - id: 01-shield-init
+    exec:
+      component: dev-runtime
+      commandLine: |
+        set -e
+        echo "🛡️  Configuring Project Shield Environment..."
+
+        # ── 1. Path & Permissions Setup ───────────────────────────────────────
+        mkdir -p ${HOME}/.local/bin
+        npm config set prefix ${HOME}/.local
+        export PATH="${HOME}/.local/bin:$PATH"
+
+        if ! grep -q ".local/bin" ${HOME}/.bashrc; then
+          echo 'export PATH="${HOME}/.local/bin:$PATH"' >> ${HOME}/.bashrc
+        fi
+
+        # ── 2. Tool Installation ──────────────────────────────────────────────
+        if ! command -v claude >/dev/null 2>&1; then
+          echo "📦 Installing Anthropic Claude Code..."
+          npm install -g @anthropic-ai/claude-code
+          echo "✅ Claude Code installed: $(claude --version)"
+        else
+          echo "✅ Claude Code already installed: $(claude --version)"
+        fi
+
+        if ! command -v openai >/dev/null 2>&1; then
+          echo "📦 Installing OpenAI Codex..."
+          npm install -g @openai/codex
+        fi
+
+        # ── 3. Claude Code Zero-Touch Configuration ───────────────────────────
+        # ANTHROPIC_API_KEY is injected by OpenShift at container level.
+        # We use it directly — no apiKeyHelper needed, no conflict.
+        echo "🔧 Configuring Claude Code..."
+
+        if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+          echo "⚠️  WARNING: ANTHROPIC_API_KEY is not set. Claude Code will not work."
+          echo "   Ensure the key is injected as an OpenShift secret/env variable."
+        else
+          mkdir -p ${HOME}/.claude
+          LAST20="${ANTHROPIC_API_KEY: -20}"
+          echo '{"hasCompletedOnboarding": true}' > ${HOME}/.claude/settings.json
+          echo "{\"hasCompletedOnboarding\": true, \"customApiKeyResponses\": {\"approved\": [\"${LAST20}\"], \"rejected\": []}}" > ${HOME}/.claude.json
+          echo "✅ Claude Code configured — using ANTHROPIC_API_KEY from environment."
+        fi
+
+        # ── 4. Final Verification & Shield Status ─────────────────────────────
+        echo "✅ AI Shield Active."
+        echo "📍 Claude version: $(claude --version 2>/dev/null || echo 'not found - check PATH')"
+
+        # ── 5. IDE Notification ───────────────────────────────────────────────
+        if [ -f "/usr/bin/code" ]; then
+          /usr/bin/code --messaging "🛡️ Project Shield Active: AI Keys Injected & Tools Ready!"
+        fi
+
+        # ── 6. Governance Check — masked key output for verification ──────────
+        echo "🔑 Governance Check (Injected Keys):"
+        env | grep -E 'OPENAI|ANTHROPIC' | awk -F= '{print "   " $1 "=****************"}'
+
+        echo "🚀 Workspace Ready. Happy Coding!"
+      workingDir: ${PROJECTS_ROOT}/aicodershield
+      group:
+        kind: run
+        isDefault: true
