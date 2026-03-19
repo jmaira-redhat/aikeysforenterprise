@@ -6,24 +6,29 @@ This repository contains the infrastructure-as-code required to securely govern 
 
 ## 🚀 Set up as a Cluster Admin user playing the ANTHROPIC keys Owner
 
-### 1. Initialize the Vault
+### Admin - 1. Initialize the Vault
 Create the restricted namespace and add your master keys.
 ```bash
 oc new-project project-shield-hub
 oc create secret generic ai-shield-master-creds --from-literal=ANTHROPIC_API_KEY=sk-ant-xxx -n project-shield-hub
 ```
-### 2. Deploy the Governance Layer
+### Admin - 2. Deploy the Governance Layer
 ```bash
 oc apply -f 01-shield-sa.yaml
 oc apply -f 02-shield-rbac.yaml
 oc apply -f 03-cluster-store.yaml
 ```
-
-### 3. Deploy the User Bridge
+## 👨‍💻 Developer Onboarding (user1)
+As a developer create the devworkspace. This will create a namespace like users-devspaces
+```
+https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/#https://github.com/jmaira-redhat/aicodersheild.git?name=ai-shield-alpha
+```
+### Admin - 3. Deploy the User Bridge
 Target the user's runtime namespace
 ```bash
-oc new-project project-shield-userws
-oc apply -f 04-external-secret.yaml
+oc get namespaces | grep user1-devspaces
+# (Let's assume it is user1-devspaces for the commands below).
+oc apply -f 04-external-secret.yaml - user1-devspaces
 ```
 ### 4. The Pre-Flight Gatekeeper
 This script checks the Hub, the Store, and the User Workspace to ensure every "link" in the chain is secure.

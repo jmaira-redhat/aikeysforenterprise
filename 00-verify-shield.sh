@@ -2,7 +2,7 @@
 
 # Configuration - Update these to match your setup
 HUB_NS="project-shield-hub"
-USER_NS="project-shield-userws"
+USER_NS="user1-devspaces"
 STORE_NAME="project-shield-vault"
 SECRET_NAME="ai-creds"
 
