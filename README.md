@@ -25,12 +25,6 @@ The journey begins with `user1` requesting a workspace. At this stage, the envir
 ### 1. Creating the Workspace
 The developer logs into the Red Hat OpenShift Dev Spaces dashboard and initiates a new workspace using the Project Shield repository.
 
-![Developer Workspace Creation](./images/user1-devspace-create.png)
-*Figure 1: user1 initiating the 'ai-shield-alpha' workspace from the central dashboard.*
-
----
-
-As a developer create the devworkspace. This will create a namespace like user1-devspaces
 ```
 logout as admin from the ocp console
 login as user1 (developer user)
@@ -38,8 +32,17 @@ login as user1 (developer user)
 https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/#https://github.com/jmaira-redhat/aikeysforenterprise.git?name=ai-shield-alpha
 
 ```
-stop workspace
-Observe for a new namespace user1-devspaces (or a developer user name prefixed tpo devpsaces) created
+
+![Developer Workspace Creation](./images/user1-devspace-create.png)
+*Figure 1: user1 initiating the 'ai-shield-alpha' workspace from the central dashboard.*
+
+---
+
+To allow the Project Shield to sync the API keys from the Hub to the Developer's namespace, the workspace must be momentarily stopped. This ensures that the next time the container starts, it "sees" the newly injected environment variables.
+
+![Developer Workspace Stop](./images/stop_workspace.png)
+*Figure 2: user1 stoping the 'ai-shield-alpha' workspace .*
+
 ### Admin - 3. Deploy the User Bridge
 Target the user's runtime namespace
 ```bash
