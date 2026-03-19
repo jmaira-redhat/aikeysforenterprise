@@ -74,6 +74,16 @@ Once the Admin has provisioned the environment, follow these steps to access you
 ### 1. Access the Workspace
 The Project Lead will provide a unique URL for your pre-provisioned workspace. 
 * **URL Format:** `https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/dashboard/#/workspace/user1-devspaces/ai-shield-alpha`
+
+Or as user1 (Developer user) access the devspace dashboard and reopen your workspace as follows
+
+
+![Developer Workspace Stop](./images/reluanch_devspaces.png)
+*Figure 3: user1 open devspaces dashboard .*
+
+
+![Developer Workspace Stop](./images/restart_workspace.png)
+*Figure 34: user1 re-open 'ai-shield-alpha' workspace  .*
 ### 2. Login & Authenticate
 1. Open the URL in an **Incognito/Private window**.
 2. Log in with your OpenShift credentials (Username: `user1`).
