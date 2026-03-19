@@ -24,7 +24,7 @@ As a developer create the devworkspace. This will create a namespace like user1-
 logout as admin from the ocp console
 login as user1 (developer user)
 
-https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/#https://github.com/jmaira-redhat/aicodersheild.git?name=ai-shield-alpha
+https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/#https://github.com/jmaira-redhat/aikeysforenterprise.git?name=ai-shield-alpha
 
 ```
 stop workspace
@@ -55,29 +55,11 @@ Expected Output
 -----------------------------------------------
 🚀 SHIELD VERIFIED: Safe to launch 05-dev-workspace.yaml
 ```
-### 5. The Final Launch.
-Create a workspace named ai-shield-alpha in this namespace, and use the configuration found in this Git repo.
-```bash
-oc project project-shield-userws
-oc apply -f 05-dev-workspace.yaml
-watch oc get devworkspace ai-shield-alpha -n project-shield-userws
-oc get pods -n project-shield-userws -w
-```
-
-### 6. Delegate access to projec to a developer user user1
-Provide Namespace access to the developer
-```bash
-# 1. Grant 'edit' to the project namespace (where the workspace lives)
-oc adm policy add-role-to-user edit user1 -n project-shield-userws
-
-# 2. Verify the 'Shield' is holding (should return 'no')
-oc auth can-i get secrets -n project-shield-hub --as user1
-```
-## 👨‍💻 Developer Onboarding (user1)
+## 👨‍💻 Developer Onboarding (user1) with ANTHROPIC Keys
 Once the Admin has provisioned the environment, follow these steps to access your secure AI workspace.
 ### 1. Access the Workspace
 The Project Lead will provide a unique URL for your pre-provisioned workspace. 
-* **URL Format:** `https://<devspaces-host>/#/workspaces/project-shield-userws/ai-shield-alpha`
+* **URL Format:** `https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/dashboard/#/workspace/user1-devspaces/ai-shield-alpha`
 ### 2. Login & Authenticate
 1. Open the URL in an **Incognito/Private window**.
 2. Log in with your OpenShift credentials (Username: `user1`).

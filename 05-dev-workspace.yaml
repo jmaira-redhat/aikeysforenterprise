@@ -14,4 +14,4 @@ spec:
       - name: aicodershield
         git:
           remotes:
-            origin: "https://github.com/jmaira-redhat/aicodersheild.git"
+            origin: "https://github.com/jmaira-redhat/aikeysforenterprise.git"
