@@ -19,7 +19,7 @@ oc apply -f 02-shield-rbac.yaml
 oc apply -f 03-cluster-store.yaml
 ```
 ## 👨‍💻 Developer Onboarding (user1)
-As a developer create the devworkspace. This will create a namespace like users-devspaces
+As a developer create the devworkspace. This will create a namespace like user1-devspaces
 ```
 logout as admin from the ocp console
 login as user1 (developer user)
@@ -36,7 +36,7 @@ oc get namespaces | grep user1-devspaces
 Expected Output
 ✅ user1-devspaces                                    Active   4m21s
 # (Let's assume it is user1-devspaces for the commands below).
-oc apply -f 04-external-secret.yaml - user1-devspaces
+oc apply -f 04-external-secret.yaml -n user1-devspaces
 ✅  externalsecret.external-secrets.io/ai-shield-keys created
 ```
 ### 4. The Pre-Flight Gatekeeper
