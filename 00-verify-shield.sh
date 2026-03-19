@@ -10,6 +10,7 @@ echo "🔍 Starting Project Shield Pre-Flight Check..."
 echo "-----------------------------------------------"
 
 # 1. Check Hub Namespace & Master Secret
+echo "✅  Developer Workspace Generated Namespace is $USER_NS"
 if oc get secret ai-shield-master-creds -n $HUB_NS &> /dev/null; then
     echo "✅ [HUB] Master Secret found in $HUB_NS"
 else
