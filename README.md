@@ -24,7 +24,7 @@ As a developer create the devworkspace. This will create a namespace like users-
 logout as admin from the ocp console
 login as user1 (developer user)
 
-https://devspaces.apps.cluster-6pt7r.dynamic.redhatworkshops.io/#https://github.com/jmaira-redhat/aicodersheild.git?name=ai-shield-alpha
+https://devspaces.apps.<CLUSTER_ID>.<CLUSTER_DOMAIN>/#https://github.com/jmaira-redhat/aicodersheild.git?name=ai-shield-alpha
 
 ```
 stop workspace
