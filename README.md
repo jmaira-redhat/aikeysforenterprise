@@ -25,7 +25,7 @@ The journey begins with `user1` requesting a workspace. At this stage, the envir
 ### 1. Creating the Workspace
 The developer logs into the Red Hat OpenShift Dev Spaces dashboard and initiates a new workspace using the Project Shield repository.
 
-![Developer Workspace Creation](./images/ai-shield-alpha-dev-space-creation.png)
+![Developer Workspace Creation](./images/user1-devspace-create.png)
 *Figure 1: user1 initiating the 'ai-shield-alpha' workspace from the central dashboard.*
 
 ---
