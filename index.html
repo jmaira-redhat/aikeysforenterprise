@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Project Shield — Ship Claude Code Without the .env Nightmare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink:       #111010;
+  --ink2:      #3d3b38;
+  --ink3:      #7a7672;
+  --paper:     #fdfcf9;
+  --paper2:    #f5f3ee;
+  --paper3:    #eceae3;
+  --line:      rgba(0,0,0,0.09);
+  --line2:     rgba(0,0,0,0.15);
+  --red:       #c8261e;
+  --red2:      #a01e17;
+  --red-wash:  #fef4f3;
+  --red-line:  rgba(200,38,30,0.2);
+  --teal:      #0d6b62;
+  --teal-wash: #f0faf8;
+  --teal-line: rgba(13,107,98,0.25);
+  --f-display: 'Playfair Display', Georgia, serif;
+  --f-body:    'Instrument Sans', system-ui, sans-serif;
+  --f-mono:    'Fira Code', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16.5px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(253,252,249,0.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line2);
+  height: 58px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+.nav-left { display: flex; align-items: center; gap: 12px; }
+.shield-badge {
+  background: var(--red); color: #fff;
+  font-family: var(--f-mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 4px;
+}
+.nav-sub { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); letter-spacing: 0.03em; }
+.nav-gh {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--ink); color: #fff;
+  font-family: var(--f-body); font-size: 13px; font-weight: 500;
+  padding: 8px 18px; border-radius: 6px;
+  text-decoration: none; transition: background .15s;
+}
+.nav-gh:hover { background: #2a2a2a; }
+.nav-gh svg { width: 15px; height: 15px; }
+
+/* HERO */
+.hero-wrap { max-width: 860px; margin: 0 auto; padding: 80px 40px 60px; }
+.hero-kicker { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.kicker-chip {
+  font-family: var(--f-mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--red); border: 1px solid var(--red-line);
+  background: var(--red-wash); padding: 4px 10px; border-radius: 3px;
+}
+.kicker-rule { width: 36px; height: 1px; background: var(--line2); }
+.kicker-sub { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); }
+
+h1 {
+  font-family: var(--f-display);
+  font-size: clamp(38px, 6vw, 64px);
+  font-weight: 900; line-height: 1.06;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 28px;
+}
+h1 em { font-style: italic; color: var(--red); }
+h1 .light { font-weight: 700; color: var(--ink2); }
+
+.hero-deck {
+  font-size: 18.5px; font-weight: 400; font-style: italic;
+  color: var(--ink2); line-height: 1.7;
+  max-width: 660px; margin-bottom: 36px;
+}
+.hero-footer {
+  display: flex; align-items: center; gap: 8px;
+  border-top: 1px solid var(--line2); padding-top: 22px; flex-wrap: wrap;
+}
+.chip {
+  font-family: var(--f-mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 20px; border: 1px solid;
+}
+.chip-vp   { color: var(--teal);  border-color: var(--teal-line); background: var(--teal-wash); }
+.chip-ciso { color: var(--red);   border-color: var(--red-line);  background: var(--red-wash); }
+.chip-cto  { color: #7c5c00; border-color: rgba(124,92,0,.25);   background: #fffbee; }
+.chip-dir  { color: #4a3a80; border-color: rgba(74,58,128,.25);  background: #f5f3ff; }
+.hero-time { margin-left: auto; font-family: var(--f-mono); font-size: 11px; color: var(--ink3); }
+
+/* HOOK */
+.hook-wrap { max-width: 860px; margin: 0 auto; padding: 0 40px 64px; }
+.hook-box {
+  background: var(--ink); border-radius: 14px; padding: 44px 48px;
+  position: relative; overflow: hidden;
+}
+.hook-box::after {
+  content: '{ }';
+  position: absolute; right: 36px; bottom: 16px;
+  font-family: var(--f-mono); font-size: 80px; font-weight: 500;
+  color: rgba(255,255,255,0.03); pointer-events: none; line-height: 1;
+}
+.hook-box p {
+  font-size: 17.5px; font-weight: 400; line-height: 1.75;
+  color: rgba(255,255,255,0.72); margin-bottom: 14px;
+}
+.hook-box p:last-child { margin: 0; }
+.hook-box strong { color: #fff; font-weight: 500; }
+.hook-hl {
+  background: var(--red); color: #fff;
+  padding: 1px 6px; border-radius: 3px;
+  font-family: var(--f-mono); font-size: 14px;
+}
+
+/* ARTICLE */
+article { max-width: 860px; margin: 0 auto; padding: 0 40px 80px; }
+section { margin-bottom: 72px; }
+
+.sec-label {
+  font-family: var(--f-mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--line2); }
+
+h2 {
+  font-family: var(--f-display);
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 700; color: var(--ink);
+  line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 18px;
+}
+h2 em { font-style: italic; color: var(--red); }
+p { color: var(--ink2); margin-bottom: 16px; }
+p:last-child { margin: 0; }
+strong { color: var(--ink); font-weight: 600; }
+code {
+  font-family: var(--f-mono); font-size: 12.5px;
+  background: var(--paper3); padding: 2px 6px; border-radius: 3px; color: var(--ink2);
+}
+
+/* PROBLEM GRID */
+.prob-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 0; margin: 32px 0;
+  border: 1px solid var(--line2); border-radius: 10px; overflow: hidden;
+}
+.prob-cell {
+  padding: 26px 22px; background: var(--paper);
+  border-right: 1px solid var(--line2);
+}
+.prob-cell:last-child { border-right: none; }
+.prob-chip {
+  display: inline-block;
+  font-family: var(--f-mono); font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--red); background: var(--red-wash);
+  border: 1px solid var(--red-line);
+  padding: 3px 8px; border-radius: 3px; margin-bottom: 12px;
+}
+.prob-cell h4 {
+  font-family: var(--f-display); font-size: 17px; font-weight: 700;
+  color: var(--ink); margin-bottom: 8px; line-height: 1.25;
+}
+.prob-cell p { font-size: 13.5px; line-height: 1.6; margin: 0; }
+
+/* CISO CALLOUT */
+.ciso-box {
+  display: flex; gap: 0;
+  border: 1px solid var(--red-line);
+  border-radius: 8px; overflow: hidden; margin: 32px 0;
+}
+.ciso-tab {
+  background: var(--red); color: #fff;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  font-family: var(--f-mono); font-size: 9px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px 10px; width: 38px; flex-shrink: 0;
+}
+.ciso-inner { padding: 20px 24px; background: var(--red-wash); flex: 1; }
+.ciso-inner h4 { font-size: 13px; font-weight: 600; color: var(--red); margin-bottom: 6px; }
+.ciso-inner p { font-size: 13.5px; line-height: 1.62; color: var(--ink2); margin: 0; }
+
+/* ARCH IMAGE */
+.arch-card {
+  border: 1px solid var(--line2); border-radius: 12px;
+  overflow: hidden; margin: 32px 0; background: #fff;
+  box-shadow: 0 2px 28px rgba(0,0,0,0.07);
+}
+.arch-topbar {
+  background: var(--paper2); border-bottom: 1px solid var(--line2);
+  padding: 13px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.arch-topbar-title {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--ink2);
+  display: flex; align-items: center; gap: 8px;
+}
+.arch-topbar-title::before {
+  content: ''; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--red); display: block; flex-shrink: 0;
+}
+.arch-topbar-sub { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); white-space: nowrap; }
+.arch-card img { width: 100%; height: auto; display: block; }
+
+/* PHASES */
+.phases { display: flex; flex-direction: column; gap: 3px; margin: 32px 0; }
+.phase-row {
+  display: grid; grid-template-columns: 100px 1fr;
+  border: 1px solid var(--line2); border-radius: 8px; overflow: hidden; background: var(--paper);
+}
+.phase-num-col {
+  background: var(--paper2);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-right: 1px solid var(--line2); padding: 20px 12px; gap: 4px;
+}
+.ph-num { font-family: var(--f-display); font-size: 36px; font-weight: 900; color: var(--red); line-height: 1; }
+.ph-lbl { font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); text-align: center; }
+.phase-body { padding: 18px 24px; }
+.phase-body h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 7px; }
+.phase-body p { font-size: 14px; line-height: 1.65; margin: 0; }
+
+/* BEFORE / AFTER */
+.ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 28px 0; }
+.ba-col { border-radius: 10px; overflow: hidden; border: 1px solid var(--line2); }
+.ba-head {
+  padding: 13px 20px;
+  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+}
+.ba-head.bad  { background: var(--red-wash);  color: var(--red); }
+.ba-head.good { background: var(--teal-wash); color: var(--teal); }
+.ba-head::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.ba-list { list-style: none; background: var(--paper); }
+.ba-list li {
+  padding: 11px 20px; font-size: 13.5px; color: var(--ink2);
+  border-top: 1px solid var(--line);
+  display: flex; align-items: flex-start; gap: 9px; line-height: 1.5;
+}
+.ba-list li span { flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+.ba-col.bad  .ba-list li span { color: var(--red); }
+.ba-col.good .ba-list li span { color: var(--teal); }
+
+/* PULL QUOTE */
+.pull {
+  margin: 36px 0; padding: 30px 36px;
+  background: var(--paper2); border-radius: 10px;
+  border-left: 4px solid var(--teal); position: relative;
+}
+.pull::before {
+  content: '\201C';
+  position: absolute; top: 8px; left: 22px;
+  font-family: var(--f-display); font-size: 72px; font-weight: 900;
+  color: var(--teal); opacity: 0.13; line-height: 1; pointer-events: none;
+}
+.pull p {
+  font-family: var(--f-display); font-style: italic;
+  font-size: 19px; line-height: 1.55; color: var(--ink); margin: 0; padding-left: 8px;
+}
+
+/* OUTCOMES */
+.outcomes-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 28px 0; }
+.outcome-card {
+  background: var(--paper); border: 1px solid var(--line2);
+  border-radius: 8px; padding: 22px 18px;
+  transition: box-shadow .2s;
+}
+.outcome-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.07); }
+.oc-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+.outcome-card h4 { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 7px; line-height: 1.3; }
+.outcome-card p { font-size: 13px; line-height: 1.55; margin: 0; }
+
+/* GITHUB CTA */
+.gh-cta {
+  background: var(--ink); border-radius: 14px; padding: 44px 48px; margin: 56px 0;
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px;
+  position: relative; overflow: hidden;
+}
+.gh-cta::before {
+  content: '';
+  position: absolute; top: -100px; right: -80px;
+  width: 320px; height: 320px;
+  background: radial-gradient(ellipse, rgba(200,38,30,0.22) 0%, transparent 65%);
+  pointer-events: none;
+}
+.gh-cta-copy h3 {
+  font-family: var(--f-display); font-size: 27px; font-weight: 900;
+  color: #fff; margin-bottom: 10px; letter-spacing: -0.02em;
+}
+.gh-cta-copy p { font-size: 14.5px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 12px; }
+.gh-cta-copy p:last-child { margin: 0; }
+.gh-cta-copy code { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); }
+.gh-url { font-family: var(--f-mono); font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 14px; display: block; }
+.gh-btns { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+.btn-gh {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: #fff; color: var(--ink);
+  font-family: var(--f-body); font-size: 13.5px; font-weight: 600;
+  padding: 12px 22px; border-radius: 7px; text-decoration: none;
+  white-space: nowrap; transition: background .15s;
+}
+.btn-gh:hover { background: #ebebeb; }
+.btn-gh svg { width: 16px; height: 16px; }
+.btn-rh {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--red); color: #fff;
+  font-family: var(--f-body); font-size: 13.5px; font-weight: 600;
+  padding: 12px 22px; border-radius: 7px; text-decoration: none;
+  white-space: nowrap; transition: background .15s;
+}
+.btn-rh:hover { background: var(--red2); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--line2); padding: 28px 40px;
+  max-width: 860px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+}
+footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); margin: 0; }
+
+/* LOGO STRIP */
+.logo-strip {
+  display: flex; align-items: center; gap: 24px;
+  padding: 18px 0 0; margin-top: 28px;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.logo-strip-label {
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink3); white-space: nowrap;
+}
+.logo-item {
+  display: flex; align-items: center; gap: 7px;
+  opacity: 0.45; transition: opacity .2s;
+}
+.logo-item:hover { opacity: 0.7; }
+.logo-item svg { display: block; }
+.logo-item span {
+  font-family: var(--f-body); font-size: 12px; font-weight: 600;
+  color: var(--ink2); letter-spacing: -0.01em;
+}
+.logo-sep { width: 1px; height: 18px; background: var(--line2); }
+
+/* ARCH LOGO BADGES */
+.arch-logos {
+  display: flex; align-items: center; gap: 14px;
+}
+.arch-logo-item {
+  display: flex; align-items: center; gap: 5px;
+  opacity: 0.5;
+}
+.arch-logo-item svg { display: block; }
+.arch-logo-item span {
+  font-family: var(--f-mono); font-size: 10px;
+  color: var(--ink3); letter-spacing: 0.03em;
+}
+
+/* FOOTER LOGOS */
+.footer-logos {
+  display: flex; align-items: center; gap: 16px;
+}
+.footer-logo-item {
+  display: flex; align-items: center; gap: 5px;
+  opacity: 0.35;
+}
+.footer-logo-item svg { display: block; }
+.footer-logo-item span {
+  font-family: var(--f-mono); font-size: 10px;
+  color: var(--ink3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 660px) {
+  nav, .hero-wrap, .hook-wrap, article, footer { padding-left: 20px; padding-right: 20px; }
+  h1 { font-size: 36px; }
+  .hook-box { padding: 28px 24px; }
+  .prob-grid { grid-template-columns: 1fr; }
+  .prob-cell { border-right: none; border-bottom: 1px solid var(--line2); }
+  .prob-cell:last-child { border-bottom: none; }
+  .ba-grid { grid-template-columns: 1fr; }
+  .outcomes-grid { grid-template-columns: 1fr 1fr; }
+  .gh-cta { grid-template-columns: 1fr; padding: 32px 24px; }
+  .gh-btns { flex-direction: row; flex-wrap: wrap; }
+  .phase-row { grid-template-columns: 72px 1fr; }
+  .nav-sub { display: none; }
+  .arch-topbar { flex-direction: column; align-items: flex-start; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div class="shield-badge">&#x1F6E1; Project Shield</div>
+    <span class="nav-sub">OpenShift &middot; Dev Spaces &middot; Claude Code</span>
+  </div>
+  <a href="https://github.com/jmaira-redhat/aikeysforenterprise" class="nav-gh" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.137 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+    Try it on GitHub
+  </a>
+</nav>
+
+<div class="hero-wrap">
+  <div class="hero-kicker">
+    <span class="kicker-chip">&#x1F6E1; Project Shield</span>
+    <span class="kicker-rule"></span>
+    <span class="kicker-sub">Enterprise AI Governance &middot; Red Hat OpenShift</span>
+  </div>
+
+  <h1>Your devs want<br/><em>Claude Code.</em><br/><span class="light">Deploy it without<br/>the .env nightmare.</span></h1>
+
+  <p class="hero-deck">A three-phase OpenShift architecture that gives every developer an instant, AI-ready workspace — no API keys on laptops, no manual credential wrangling, no day-one setup tax.</p>
+
+  <div class="hero-footer">
+    <span class="chip chip-vp">VP App Dev</span>
+    <span class="chip chip-dir">Dev Director</span>
+    <span class="chip chip-ciso">CISO</span>
+    <span class="chip chip-cto">CTO</span>
+    <span class="hero-time">&#x23F1;&nbsp; 3 min read</span>
+  </div>
+
+  <!-- LOGO STRIP -->
+  <div class="logo-strip">
+    <span class="logo-strip-label">Powered by</span>
+
+    <!-- Red Hat OpenShift logo mark (O-ring + RH hat) -->
+    <div class="logo-item">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="15" stroke="#c8261e" stroke-width="2"/>
+        <circle cx="16" cy="16" r="9" stroke="#c8261e" stroke-width="1.5"/>
+        <!-- hat brim -->
+        <path d="M9 18 Q16 15 23 18" stroke="#c8261e" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- hat crown -->
+        <path d="M11 18 Q11.5 13.5 16 13 Q20.5 13.5 21 18" fill="#c8261e"/>
+      </svg>
+      <span>Red Hat OpenShift</span>
+    </div>
+
+    <div class="logo-sep"></div>
+
+    <!-- Dev Spaces icon (grid of squares = workspace) -->
+    <div class="logo-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="2" width="9" height="9" rx="2" fill="#c8261e"/>
+        <rect x="13" y="2" width="9" height="9" rx="2" fill="#c8261e" opacity="0.5"/>
+        <rect x="2" y="13" width="9" height="9" rx="2" fill="#c8261e" opacity="0.5"/>
+        <rect x="13" y="13" width="9" height="9" rx="2" fill="#c8261e" opacity="0.3"/>
+      </svg>
+      <span>Dev Spaces</span>
+    </div>
+
+    <div class="logo-sep"></div>
+
+    <!-- Anthropic / Claude logo mark (stylised A shape from brand) -->
+    <div class="logo-item">
+      <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+        <!-- Claude's characteristic diamond/chevron mark -->
+        <path d="M16 3 L28 26 H22 L16 13 L10 26 H4 Z" fill="#c8841a"/>
+        <path d="M10 20 H22" stroke="#fdfcf9" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span>Anthropic Claude Code</span>
+    </div>
+  </div>
+</div>
+
+<div class="hook-wrap">
+  <div class="hook-box">
+    <p>Your engineers are <strong>already using Claude Code.</strong> Some are using personal API keys. Some have accidentally committed a <span class="hook-hl">.env</span> file and quietly rotated it before anyone noticed. Most spend <strong>20–40 minutes on day one</strong> configuring credentials instead of writing code.</p>
+    <p>This isn't a future risk. It's happening right now, across your fleet, at every onboarding. <strong>Project Shield fixes all three problems with one architectural change.</strong></p>
+  </div>
+</div>
+
+<article>
+
+  <section>
+    <div class="sec-label">The bottleneck</div>
+    <h2>One root cause, <em>three kinds of pain</em></h2>
+    <p>The default Claude Code setup hands every developer a static API key and says "manage this yourself." That single decision creates a cascade of friction across your entire org.</p>
+
+    <div class="prob-grid">
+      <div class="prob-cell">
+        <div class="prob-chip">Day one</div>
+        <h4>Onboarding friction</h4>
+        <p>New hires and contractors spend their first productive hours on credential setup — not shipping. Project leads become impromptu IT support desks.</p>
+      </div>
+      <div class="prob-cell">
+        <div class="prob-chip">Ongoing</div>
+        <h4>Flow state tax</h4>
+        <p>Developers carry background anxiety about accidentally committing a <code>.env</code> file. That cognitive overhead is a real, measurable drag on output quality.</p>
+      </div>
+      <div class="prob-cell">
+        <div class="prob-chip">Offboarding</div>
+        <h4>Credential sprawl</h4>
+        <p>When a contractor wraps up, their key is still on a personal laptop. Your CISO's audit nightmare is already a live spreadsheet problem.</p>
+      </div>
+    </div>
+
+    <div class="ciso-box">
+      <div class="ciso-tab">CISO View</div>
+      <div class="ciso-inner">
+        <h4>Zero Trust violation — by default</h4>
+        <p>Static, plain-text API keys on developer endpoints directly contradict Assume Breach principles. Project Shield moves all credential authority into the OpenShift cluster. No key ever touches a developer's disk — the endpoint is eliminated as an attack surface entirely.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">The architecture</div>
+    <h2>Project Shield in <em>three phases</em></h2>
+    <p>Instead of managing credentials per-developer, Project Shield centralizes them once — then the DevWorkspace Controller automatically injects them into every Dev Spaces container at launch. Developers open their workspace and Claude Code is ready. No keys. No config. No anxiety.</p>
+
+    <div class="arch-card">
+      <div class="arch-topbar">
+        <div class="arch-topbar-title">Project Shield — Secure AI Governance Architecture</div>
+        <div class="arch-logos">
+          <!-- OpenShift mini mark -->
+          <div class="arch-logo-item">
+            <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="14" stroke="#c8261e" stroke-width="2"/>
+              <circle cx="16" cy="16" r="8" stroke="#c8261e" stroke-width="1.5"/>
+              <path d="M10 17.5 Q16 15 22 17.5" stroke="#c8261e" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M11.5 17.5 Q12 13.5 16 13 Q20 13.5 20.5 17.5" fill="#c8261e"/>
+            </svg>
+            <span>OpenShift</span>
+          </div>
+          <!-- Anthropic mini mark -->
+          <div class="arch-logo-item">
+            <svg width="14" height="14" viewBox="0 0 32 32" fill="none">
+              <path d="M16 3 L28 26 H22 L16 13 L10 26 H4 Z" fill="#c8841a"/>
+              <path d="M10 20 H22" stroke="#fdfcf9" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span>Claude Code</span>
+          </div>
+        </div>
+      </div>
+      <img
+        src="images/PropjectSheild-MainArchitecture.png"
+        alt="Project Shield architecture showing three phases: Phase 1 Admin Configuration stores ai-creds secret in OpenShift cluster namespace. Phase 2 Developer Onboarding via single oc apply command referencing a devfile.yaml. Phase 3 The Shield — DevWorkspace Controller automatically mounts ANTHROPIC_API_KEY into the Dev Spaces pod marked Shielded, ready for Claude AI CLI."
+      />
+    </div>
+
+    <div class="phases">
+      <div class="phase-row">
+        <div class="phase-num-col">
+          <div class="ph-num">01</div>
+          <div class="ph-lbl">Admin<br/>Once</div>
+        </div>
+        <div class="phase-body">
+          <h4>Admin stores the secret — one time, for everyone</h4>
+          <p>A cluster admin creates the Anthropic API key as an OpenShift Secret with two labels: <code>mount-to-devworkspace=true</code> and <code>watch-secret=true</code>. That's it. Every future project and every future developer inherits this automatically — no new tickets, no new credentials to distribute.</p>
+        </div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-num-col">
+          <div class="ph-num">02</div>
+          <div class="ph-lbl">Dev<br/>One click</div>
+        </div>
+        <div class="phase-body">
+          <h4>Developer onboards with a single command</h4>
+          <p>A project lead shares a <code>devfile.yaml</code> Git URL. The new developer runs <code>oc apply -f ai-app-devfile.yaml</code> — or just clicks a link. Their fully configured, AI-ready Dev Spaces workspace spins up immediately. Zero credential steps. Day-one productivity starts on day one.</p>
+        </div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-num-col">
+          <div class="ph-num">03</div>
+          <div class="ph-lbl">Shield<br/>Auto</div>
+        </div>
+        <div class="phase-body">
+          <h4>The controller injects the key — invisibly</h4>
+          <p>The DevWorkspace Controller detects the labeled secret and automatically mounts it into the running Dev Spaces pod as <code>ANTHROPIC_API_KEY</code>. The developer's terminal shows <code>✓ Shielded</code>. The key is never written to local storage. If an endpoint is compromised, there is nothing to steal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">Before &amp; After</div>
+    <h2>What actually changes <em>for your teams</em></h2>
+
+    <div class="ba-grid">
+      <div class="ba-col bad">
+        <div class="ba-head bad">Before — the .env file way</div>
+        <ul class="ba-list">
+          <li><span>✕</span> 20–40 min of credential setup per developer on day one</li>
+          <li><span>✕</span> Keys scattered across laptops, terminal profiles, CI configs</li>
+          <li><span>✕</span> Rotation requires manually hunting down every engineer</li>
+          <li><span>✕</span> Contractor offboarded — key still on their personal MacBook</li>
+          <li><span>✕</span> One accidental <code>git push</code> = public API key exposure</li>
+        </ul>
+      </div>
+      <div class="ba-col good">
+        <div class="ba-head good">After — Project Shield</div>
+        <ul class="ba-list">
+          <li><span>✓</span> One command — workspace ready in minutes, AI included</li>
+          <li><span>✓</span> Single secret in the cluster, zero local persistence</li>
+          <li><span>✓</span> Rotation happens in the cluster, propagates instantly</li>
+          <li><span>✓</span> Revoking OpenShift access = instant, complete termination</li>
+          <li><span>✓</span> No key to expose — it never touches the filesystem</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pull">
+      <p>Developers stay in their flow state. Security gets centralized control. Project leads stop being credential support desks. Everyone wins the same architectural decision.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">Business outcomes</div>
+    <h2>What leadership <em>actually gets</em></h2>
+    <p>This isn't just a security uplift. It's a velocity unlock — the rare architectural move that satisfies both your CISO and your engineering org simultaneously.</p>
+
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <span class="oc-icon">⚡</span>
+        <h4>Instant team mobilization</h4>
+        <p>Define the environment once. Every hire or contractor gets a working AI setup from minute one — no IT tickets, no waiting.</p>
+      </div>
+      <div class="outcome-card">
+        <span class="oc-icon">🔒</span>
+        <h4>Zero credential sprawl</h4>
+        <p>Keys live in the cluster, not on 40 laptops. One governance layer covers every Claude Code session across the org.</p>
+      </div>
+      <div class="outcome-card">
+        <span class="oc-icon">🔄</span>
+        <h4>Automated key rotation</h4>
+        <p>Rotate in the cluster — it propagates everywhere instantly. Continuous compliance, zero engineer involvement.</p>
+      </div>
+      <div class="outcome-card">
+        <span class="oc-icon">🚪</span>
+        <h4>Clean offboarding</h4>
+        <p>Revoke OpenShift access and it's done. Contractor offboarding drops from a 2-hour credential audit to a single click.</p>
+      </div>
+      <div class="outcome-card">
+        <span class="oc-icon">🧠</span>
+        <h4>Developer focus — restored</h4>
+        <p>No setup friction, no accidental-commit anxiety. Engineers open a workspace and ship code. That's it.</p>
+      </div>
+      <div class="outcome-card">
+        <span class="oc-icon">🤝</span>
+        <h4>Security as an enabler</h4>
+        <p>SecOps stops saying no and starts enabling. AI adoption accelerates and tightens simultaneously.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="gh-cta">
+    <div class="gh-cta-copy">
+      <h3>Deploy Project Shield today</h3>
+      <p>The full implementation — RBAC, ClusterStore, DevWorkspace controller config, and <code>devfile.yaml</code> — is open source and ready to run. Numbered shell scripts walk your team from zero to shielded in a single session.</p>
+      <p>Start with <code>00-verify-shield.sh</code> and follow the three-phase sequence. Everything maps directly to the architecture above.</p>
+      <span class="gh-url">github.com/jmaira-redhat/aikeysforenterprise</span>
+    </div>
+    <div class="gh-btns">
+      <a href="https://github.com/jmaira-redhat/aikeysforenterprise" class="btn-gh" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.137 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        View on GitHub
+      </a>
+      <a href="https://developers.redhat.com/products/openshift-dev-spaces/overview" class="btn-rh" target="_blank" rel="noopener">
+        OpenShift Dev Spaces ↗
+      </a>
+    </div>
+  </div>
+
+</article>
+
+<footer>
+  <div class="footer-logos">
+    <!-- OpenShift -->
+    <div class="footer-logo-item">
+      <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="14" stroke="#c8261e" stroke-width="2"/>
+        <circle cx="16" cy="16" r="8" stroke="#c8261e" stroke-width="1.5"/>
+        <path d="M10 17.5 Q16 15 22 17.5" stroke="#c8261e" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M11.5 17.5 Q12 13.5 16 13 Q20 13.5 20.5 17.5" fill="#c8261e"/>
+      </svg>
+      <span>Red Hat OpenShift</span>
+    </div>
+    <div style="width:1px;height:12px;background:var(--line2)"></div>
+    <!-- Claude -->
+    <div class="footer-logo-item">
+      <svg width="14" height="14" viewBox="0 0 32 32" fill="none">
+        <path d="M16 3 L28 26 H22 L16 13 L10 26 H4 Z" fill="#c8841a"/>
+        <path d="M10 20 H22" stroke="#fdfcf9" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span>Anthropic Claude Code</span>
+    </div>
+    <div style="width:1px;height:12px;background:var(--line2)"></div>
+    <!-- GitHub -->
+    <div class="footer-logo-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#3d3b38"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.137 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      <span>jmaira-redhat/aikeysforenterprise</span>
+    </div>
+  </div>
+  <p>Project Shield &middot; Enterprise AI Governance</p>
+</footer>
+
+</body>
+</html>
