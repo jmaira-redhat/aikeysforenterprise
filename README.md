@@ -4,6 +4,10 @@
 
 This repository contains the infrastructure-as-code required to securely govern AI API keys (Claude/OpenAI) on Red Hat OpenShift using External Secrets and Dev Spaces.
 
+
+![Developer Workspace Creation](./images/PropjectSheild-MainArchitecture.png)
+*Figure Arch: Decentralized AI Keys for Frictionless Dev.*
+
 ## 🚀 Set up as a Cluster Admin user playing the ANTHROPIC keys Owner
 
 ### Admin - 1. Initialize the Vault
