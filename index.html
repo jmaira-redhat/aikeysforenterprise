@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Project Shield — Ship Claude Code Without the .env Nightmare</title>
+<title>Project Shield — Claude Code, Enterprise-Ready: How OpenShift Governs AI Credentials at Scale</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
@@ -83,19 +83,21 @@ nav {
 
 h1 {
   font-family: var(--f-display);
-  font-size: clamp(38px, 6vw, 64px);
-  font-weight: 900; line-height: 1.06;
-  letter-spacing: -0.02em; color: var(--ink);
-  margin-bottom: 28px;
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 900; line-height: 1.08;
+  letter-spacing: -0.025em; color: var(--ink);
+  margin-bottom: 24px;
 }
 h1 em { font-style: italic; color: var(--red); }
 h1 .light { font-weight: 700; color: var(--ink2); }
 
 .hero-deck {
-  font-size: 18.5px; font-weight: 400; font-style: italic;
-  color: var(--ink2); line-height: 1.7;
-  max-width: 660px; margin-bottom: 36px;
+  font-size: 22px; font-weight: 600; font-style: normal;
+  color: var(--ink); line-height: 1.5;
+  max-width: 600px; margin-bottom: 36px;
+  letter-spacing: -0.01em;
 }
+
 .hero-footer {
   display: flex; align-items: center; gap: 8px;
   border-top: 1px solid var(--line2); padding-top: 22px; flex-wrap: wrap;
@@ -349,15 +351,11 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
   padding: 0 40px 40px;
   display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
   border-bottom: 1px solid var(--line2);
-  margin-bottom: 0;
 }
-.author {
-  display: flex; align-items: center; gap: 10px;
-}
+.author { display: flex; align-items: center; gap: 10px; }
 .author-avatar {
   width: 38px; height: 38px; border-radius: 50%;
-  background: var(--paper3);
-  border: 1px solid var(--line2);
+  background: var(--paper3); border: 1px solid var(--line2);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--f-display); font-size: 14px; font-weight: 700;
   color: var(--red); flex-shrink: 0; letter-spacing: -0.02em;
@@ -366,10 +364,10 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
 .author-name {
   font-family: var(--f-body); font-size: 13.5px; font-weight: 600;
   color: var(--ink); line-height: 1.2;
+  transition: color .15s;
 }
 .author-title {
-  font-family: var(--f-mono); font-size: 10.5px; color: var(--ink3);
-  letter-spacing: 0.02em;
+  font-family: var(--f-mono); font-size: 10.5px; color: var(--ink3); letter-spacing: 0.02em;
 }
 .author-name-link {
   display: inline-flex; align-items: center; gap: 5px;
@@ -378,20 +376,16 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
 .author-name-link:hover .author-name { color: var(--red); }
 .author-name-link:hover .li-icon { opacity: 0.9; }
 .li-icon {
-  width: 13px; height: 13px;
-  color: #0a66c2; opacity: 0.55;
-  flex-shrink: 0; transition: opacity .15s;
+  width: 13px; height: 13px; color: #0a66c2;
+  opacity: 0.55; flex-shrink: 0; transition: opacity .15s;
 }
-.authors-divider {
-  width: 1px; height: 30px; background: var(--line2);
-}
+.authors-divider { width: 1px; height: 30px; background: var(--line2); }
 
 /* LOGO STRIP */
 .logo-strip {
   display: flex; align-items: center; gap: 24px;
   padding: 18px 0 0; margin-top: 28px;
-  border-top: 1px solid var(--line);
-  flex-wrap: wrap;
+  border-top: 1px solid var(--line); flex-wrap: wrap;
 }
 .logo-strip-label {
   font-family: var(--f-mono); font-size: 10px;
@@ -404,41 +398,28 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
 }
 .logo-item:hover { opacity: 0.7; }
 .logo-item svg { display: block; }
-.logo-item span {
-  font-family: var(--f-body); font-size: 12px; font-weight: 600;
-  color: var(--ink2); letter-spacing: -0.01em;
-}
+.logo-item span { font-family: var(--f-body); font-size: 12px; font-weight: 600; color: var(--ink2); letter-spacing: -0.01em; }
 .logo-sep { width: 1px; height: 18px; background: var(--line2); }
 
 /* SECURITY STACK */
-.sec-stack {
-  margin: 32px 0;
-  border: 1px solid var(--line2); border-radius: 10px; overflow: hidden;
-}
+.sec-stack { margin: 32px 0; border: 1px solid var(--line2); border-radius: 10px; overflow: hidden; }
 .sec-stack-header {
   background: var(--paper2); border-bottom: 1px solid var(--line2);
-  padding: 13px 20px;
-  display: flex; align-items: center; gap: 10px;
+  padding: 13px 20px; display: flex; align-items: center; gap: 10px;
 }
-.sec-stack-header span {
-  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
-  color: var(--ink2); letter-spacing: 0.04em;
-}
+.sec-stack-header span { font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--ink2); letter-spacing: 0.04em; }
 .sec-stack-header .ssh-chip {
   font-family: var(--f-mono); font-size: 9px; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--teal); border: 1px solid var(--teal-line);
   background: var(--teal-wash); padding: 3px 8px; border-radius: 3px;
 }
-.stack-layers {
-  display: flex; flex-direction: column; gap: 0;
-}
+.stack-layers { display: flex; flex-direction: column; gap: 0; }
 .stack-layer {
   display: grid; grid-template-columns: 36px 180px 1fr auto;
   align-items: center; gap: 0;
   border-bottom: 1px solid var(--line);
-  background: var(--paper);
-  transition: background .15s;
+  background: var(--paper); transition: background .15s;
 }
 .stack-layer:last-child { border-bottom: none; }
 .stack-layer:hover { background: var(--paper2); }
@@ -447,71 +428,40 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
   text-align: center; padding: 16px 0; border-right: 1px solid var(--line);
   align-self: stretch; display: flex; align-items: center; justify-content: center;
 }
-.sl-name {
-  padding: 14px 18px; border-right: 1px solid var(--line);
-  display: flex; flex-direction: column; gap: 2px;
-}
-.sl-name-main {
-  font-family: var(--f-body); font-size: 13px; font-weight: 600; color: var(--ink);
-}
-.sl-name-sub {
-  font-family: var(--f-mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.03em;
-}
-.sl-desc {
-  padding: 14px 18px; font-size: 13px; color: var(--ink2); line-height: 1.5;
-}
+.sl-name { padding: 14px 18px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.sl-name-main { font-family: var(--f-body); font-size: 13px; font-weight: 600; color: var(--ink); }
+.sl-name-sub { font-family: var(--f-mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.03em; }
+.sl-desc { padding: 14px 18px; font-size: 13px; color: var(--ink2); line-height: 1.5; }
 .sl-badge {
-  padding: 14px 16px;
-  font-family: var(--f-mono); font-size: 9px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  white-space: nowrap;
+  padding: 14px 16px; font-family: var(--f-mono); font-size: 9px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
 }
-.sl-badge.vault { color: var(--amber, #b45309); }
+.sl-badge.vault { color: var(--amber); }
 .sl-badge.eso   { color: var(--teal); }
 .sl-badge.ocp   { color: var(--red); }
 .stack-note {
-  padding: 12px 20px;
-  background: var(--teal-wash); border-top: 1px solid var(--teal-line);
+  padding: 12px 20px; background: var(--teal-wash); border-top: 1px solid var(--teal-line);
   display: flex; align-items: flex-start; gap: 10px;
 }
 .stack-note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-.stack-note p {
-  font-size: 13px; line-height: 1.55; color: var(--teal);
-  font-style: italic; margin: 0;
-}
+.stack-note p { font-size: 13px; line-height: 1.55; color: var(--teal); font-style: italic; margin: 0; }
 
 /* ARCH LOGO BADGES */
-.arch-logos {
-  display: flex; align-items: center; gap: 14px;
-}
-.arch-logo-item {
-  display: flex; align-items: center; gap: 5px;
-  opacity: 0.5;
-}
+.arch-logos { display: flex; align-items: center; gap: 14px; }
+.arch-logo-item { display: flex; align-items: center; gap: 5px; opacity: 0.5; }
 .arch-logo-item svg { display: block; }
-.arch-logo-item span {
-  font-family: var(--f-mono); font-size: 10px;
-  color: var(--ink3); letter-spacing: 0.03em;
-}
+.arch-logo-item span { font-family: var(--f-mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.03em; }
 
 /* FOOTER LOGOS */
-.footer-logos {
-  display: flex; align-items: center; gap: 16px;
-}
-.footer-logo-item {
-  display: flex; align-items: center; gap: 5px;
-  opacity: 0.35;
-}
+.footer-logos { display: flex; align-items: center; gap: 16px; }
+.footer-logo-item { display: flex; align-items: center; gap: 5px; opacity: 0.35; }
 .footer-logo-item svg { display: block; }
-.footer-logo-item span {
-  font-family: var(--f-mono); font-size: 10px;
-  color: var(--ink3);
-}
+.footer-logo-item span { font-family: var(--f-mono); font-size: 10px; color: var(--ink3); }
 
 /* RESPONSIVE */
 @media (max-width: 660px) {
   nav, .hero-wrap, .hook-wrap, article, footer { padding-left: 20px; padding-right: 20px; }
-  h1 { font-size: 36px; }
+  h1 { font-size: 32px; }
   .hook-box { padding: 28px 24px; }
   .prob-grid { grid-template-columns: 1fr; }
   .prob-cell { border-right: none; border-bottom: 1px solid var(--line2); }
@@ -527,6 +477,8 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
   .sl-desc { grid-column: 2; padding-top: 0; }
   .nav-sub { display: none; }
   .arch-topbar { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .authors { padding-left: 20px; padding-right: 20px; }
+  .hero-deck { font-size: 18px; }
 }
 </style>
 </head>
@@ -550,9 +502,9 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
     <span class="kicker-sub">Enterprise AI Governance &middot; Red Hat OpenShift</span>
   </div>
 
-  <h1>Your devs want<br/><em>Claude Code.</em><br/><span class="light">Deploy it without<br/>the .env nightmare.</span></h1>
+  <h1><em>Claude Code,</em><br/><span class="light">Enterprise-Ready:</span><br/>How OpenShift Governs<br/>AI Credentials at Scale.</h1>
 
-  <p class="hero-deck">A three-phase OpenShift architecture that gives every developer an instant, AI-ready workspace — no API keys on laptops, no manual credential wrangling, no day-one setup tax.</p>
+  <p class="hero-deck">Three phases. One architectural change. Zero API keys on laptops.</p>
 
   <div class="hero-footer">
     <span class="chip chip-vp">VP App Dev</span>
@@ -565,23 +517,16 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
   <!-- LOGO STRIP -->
   <div class="logo-strip">
     <span class="logo-strip-label">Powered by</span>
-
-    <!-- Red Hat OpenShift logo mark (O-ring + RH hat) -->
     <div class="logo-item">
       <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
         <circle cx="16" cy="16" r="15" stroke="#c8261e" stroke-width="2"/>
         <circle cx="16" cy="16" r="9" stroke="#c8261e" stroke-width="1.5"/>
-        <!-- hat brim -->
         <path d="M9 18 Q16 15 23 18" stroke="#c8261e" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- hat crown -->
         <path d="M11 18 Q11.5 13.5 16 13 Q20.5 13.5 21 18" fill="#c8261e"/>
       </svg>
       <span>Red Hat OpenShift</span>
     </div>
-
     <div class="logo-sep"></div>
-
-    <!-- Dev Spaces icon (grid of squares = workspace) -->
     <div class="logo-item">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
         <rect x="2" y="2" width="9" height="9" rx="2" fill="#c8261e"/>
@@ -591,13 +536,9 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
       </svg>
       <span>Dev Spaces</span>
     </div>
-
     <div class="logo-sep"></div>
-
-    <!-- Anthropic / Claude logo mark (stylised A shape from brand) -->
     <div class="logo-item">
       <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
-        <!-- Claude's characteristic diamond/chevron mark -->
         <path d="M16 3 L28 26 H22 L16 13 L10 26 H4 Z" fill="#c8841a"/>
         <path d="M10 20 H22" stroke="#fdfcf9" stroke-width="2.5" stroke-linecap="round"/>
       </svg>
@@ -615,7 +556,7 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
         <span class="author-name">Jag Maira</span>
         <svg class="li-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
-      <span class="author-title">OpenShift Solution Architect · Red Hat</span>
+      <span class="author-title">OpenShift Solution Architect &middot; Red Hat</span>
     </div>
   </div>
   <div class="authors-divider"></div>
@@ -626,7 +567,7 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
         <span class="author-name">Girish Krishnan</span>
         <svg class="li-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
-      <span class="author-title">Chief Architect, CTO Office · Red Hat</span>
+      <span class="author-title">Chief Architect, CTO Office &middot; Red Hat</span>
     </div>
   </div>
 </div>
@@ -642,8 +583,8 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
 
   <section>
     <div class="sec-label">The bottleneck</div>
-    <h2>One root cause, <em>three kinds of pain</em></h2>
-    <p>The default Claude Code setup hands every developer a static API key and says "manage this yourself." That single decision creates a cascade of friction across your entire org.</p>
+    <h2>One root cause, <em>three flavours of pain</em></h2>
+    <p>The default Claude Code setup hands every developer a static API key and says "manage this yourself." That singular decision introduces friction for the developer and risk for the organization.</p>
 
     <div class="prob-grid">
       <div class="prob-cell">
@@ -681,7 +622,6 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
       <div class="arch-topbar">
         <div class="arch-topbar-title">Project Shield — Secure AI Governance Architecture</div>
         <div class="arch-logos">
-          <!-- OpenShift mini mark -->
           <div class="arch-logo-item">
             <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
               <circle cx="16" cy="16" r="14" stroke="#c8261e" stroke-width="2"/>
@@ -691,7 +631,6 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
             </svg>
             <span>OpenShift</span>
           </div>
-          <!-- Anthropic mini mark -->
           <div class="arch-logo-item">
             <svg width="14" height="14" viewBox="0 0 32 32" fill="none">
               <path d="M16 3 L28 26 H22 L16 13 L10 26 H4 Z" fill="#c8841a"/>
@@ -835,7 +774,7 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
   <section>
     <div class="sec-label">Business outcomes</div>
     <h2>What leadership <em>actually gets</em></h2>
-    <p>This isn’t just a security upgrade — it’s a velocity unlock: a rare architectural move that delights both your CISO and your engineering team.</p>
+    <p>This isn't just a security upgrade — it's a velocity unlock: a rare architectural move that delights both your CISO and your engineering team.</p>
 
     <div class="outcomes-grid">
       <div class="outcome-card">
@@ -893,7 +832,6 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
 
 <footer>
   <div class="footer-logos">
-    <!-- OpenShift -->
     <div class="footer-logo-item">
       <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
         <circle cx="16" cy="16" r="14" stroke="#c8261e" stroke-width="2"/>
@@ -904,7 +842,6 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
       <span>Red Hat OpenShift</span>
     </div>
     <div style="width:1px;height:12px;background:var(--line2)"></div>
-    <!-- Claude -->
     <div class="footer-logo-item">
       <svg width="14" height="14" viewBox="0 0 32 32" fill="none">
         <path d="M16 3 L28 26 H22 L16 13 L10 26 H4 Z" fill="#c8841a"/>
@@ -913,7 +850,6 @@ footer p { font-family: var(--f-mono); font-size: 11px; color: var(--ink3); marg
       <span>Anthropic Claude Code</span>
     </div>
     <div style="width:1px;height:12px;background:var(--line2)"></div>
-    <!-- GitHub -->
     <div class="footer-logo-item">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="#3d3b38"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.137 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
       <span>jmaira-redhat/aikeysforenterprise</span>
